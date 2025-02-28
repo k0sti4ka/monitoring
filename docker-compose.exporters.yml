@@ -1,7 +1,7 @@
 services:
 
   nodeexporter:
-    image: prom/node-exporter:v1.8.2
+    image: prom/node-exporter:v3.2.0
     container_name: nodeexporter
     volumes:
       - /proc:/host/proc:ro
@@ -21,6 +21,13 @@ services:
     image: gcr.io/cadvisor/cadvisor:v0.51.0
     container_name: cadvisor
     privileged: true
+    command:
+      - "--enable_metrics=cpu,memory,network"
+      - "--store_container_labels=false"
+      - "--docker_only=true"
+      - "---housekeeping_interval=10s"
+    ports:
+      - 9091:8080
     devices:
       - /dev/kmsg:/dev/kmsg
     volumes:
