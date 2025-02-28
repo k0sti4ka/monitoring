@@ -29,22 +29,6 @@ services:
     labels:
       org.label-schema.group: "monitoring"
 
-#  alertmanager:
-#    image: prom/alertmanager:latest
-#    container_name: alertmanager
-#    volumes:
-#      - ./alertmanager:/etc/alertmanager
-#    command:
-#      - '--config.file=/etc/alertmanager/config.yml'
-#      - '--storage.path=/alertmanager'
-#    restart: unless-stopped
-#    expose:
-#      - 9093
-#    networks:
-#      - monitor-net
-#    labels:
-#      org.label-schema.group: "monitoring"
-
   nodeexporter:
     image: prom/node-exporter:v1.9.0
     container_name: nodeexporter
@@ -98,32 +82,10 @@ services:
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:
-      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
     restart: unless-stopped
     expose:
       - 3000
-    networks:
-      - monitor-net
-    labels:
-      org.label-schema.group: "monitoring"
-
-  caddy:
-    image: caddy:2.9.1
-    container_name: caddy
-    ports:
-      - "3000:3000"
-      - "9090:9090"
-      - "9093:9093"
-      - "9091:9091"
-    volumes:
-      - ./caddy:/etc/caddy
-    environment:
-      - ADMIN_USER=${ADMIN_USER:-admin}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-$2a$14$1l.IozJx7xQRVmlkEQ32OeEEfP5mRxTpbDTCTcXRqn19gXD8YK1pO}
-    restart: unless-stopped
     networks:
       - monitor-net
     labels:
