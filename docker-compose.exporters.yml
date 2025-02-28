@@ -25,7 +25,7 @@ services:
       - "--enable_metrics=cpu,memory,network"
       - "--store_container_labels=false"
       - "--docker_only=true"
-      - "---housekeeping_interval=10s"
+      - "--housekeeping_interval=10s"
     ports:
       - 9091:8080
     devices:
