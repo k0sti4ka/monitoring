@@ -1,11 +1,10 @@
 route:
-    receiver: 'slack'
+    receiver: 'telegram'
 
 receivers:
-    - name: 'slack'
-      slack_configs:
-          - send_resolved: true
-            text: "{{ .CommonAnnotations.description }}"
-            username: 'Prometheus'
-            channel: '#<channel-name>'
-            api_url: 'https://hooks.slack.com/services/<webhook-id>'
+    - name: 'telegram'
+      telegram_configs:
+        - bot_token: token
+          api_url: https://api.telegram.org
+          chat_id: -12345678
+          parse_mode: ''
